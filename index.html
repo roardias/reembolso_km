@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Reembolso de Despesas de Quilometragem</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        /* Ajustes para garantir que o logo se destaque */
+        :root {
+            --primary-color: #ddd317;
+            --primary-dark: #b8b013;
+            --text-color: #333;
+            --border-color: #ddd;
+            --background-light: #f9f9f9;
+            --header-bg: #3b3b3b; /* Fundo escuro para o cabeçalho */
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            color: var(--text-color);
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+            font-size: 14px; /* Fonte reduzida para melhor ajuste */
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 15px;
+            background-color: var(--header-bg); /* Fundo escuro para o cabeçalho */
+            padding: 15px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .logo {
+            height: 80px;
+            max-width: 200px;
+            object-fit: contain;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: transparent; /* Logo sem fundo */
+        }
+        
+        .form-title {
+            text-align: center;
+            color: white; /* Texto branco para contrastar com o fundo escuro */
+            margin-bottom: 0;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .section {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--background-light);
+        }
+        
+        .section-title {
+            margin-bottom: 10px;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 16px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 13px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .table-container {
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: black;
+            padding: 8px;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        td {
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        input[type="date"], input[type="number"] {
+            padding: 6px;
+        }
+        
+        .trip-row td {
+            padding: 5px;
+        }
+        
+        .trip-row input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            font-size: 11px; /* Reduzido para evitar cortes */
+            min-width: 0; /* Importante para permitir que os inputs encolham */
+        }
+        
+        /* Ajustes específicos para evitar cortes na tabela */
+        .trip-row .data-viagem {
+            width: 100%;
+            min-width: 90px;
+        }
+        
+        .trip-row .origem,
+        .trip-row .destino {
+            min-width: 120px;
+        }
+        
+        .trip-row .km-inicial,
+        .trip-row .km-final {
+            min-width: 60px;
+        }
+        
+        .signature-section {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature-box {
+            width: 45%;
+            text-align: center;
+        }
+        
+        .signature-line {
+            border-bottom: 1px solid var(--text-color);
+            margin-bottom: 5px;
+            height: 40px;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .summary-section {
+            margin-top: 20px;
+            background-color: var(--primary-color);
+            padding: 15px;
+            border-radius: 5px;
+            color: black;
+            font-weight: 500;
+            text-align: right;
+        }
+        
+        .summary-label {
+            margin-right: 10px;
+        }
+        
+        .footer-info {
+            margin-top: 30px;
+            border-top: 2px solid var(--primary-color);
+            padding-top: 15px;
+        }
+        
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .footer-item {
+            margin-bottom: 15px;
+        }
+        
+        .footer-item-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        /* Botão para excluir viagem */
+        .btn-excluir {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-excluir:hover {
+            background-color: #e74c3c;
+        }
+        
+        /* Esconder os botões de excluir na impressão */
+        @media print {
+            .btn-excluir {
+                display: none;
+            }
+            th:last-child, td:last-child {
+                display: none;
+            }
+            
+            body {
+                font-size: 11px; /* Reduzido para evitar cortes */
+            }
+            
+            .no-print {
+                display: none;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: none;
+                padding: 5px;
+                margin: 0;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            /* Forçar quebras de página em seções específicas */
+            .summary-section {
+                page-break-before: always;
+                margin-top: 0;
+                padding-top: 0;
+            }
+            
+            .signature-section {
+                page-break-after: avoid;
+                page-break-before: auto;
+            }
+            
+            .footer-info {
+                page-break-before: auto;
+            }
+            
+            /* Forçar que elementos importantes não sejam cortados */
+            .summary-section,
+            .signature-section {
+                page-break-inside: avoid;
+            }
+            
+            table {
+                page-break-inside: auto;
+                font-size: 10px; /* Tabela com fonte ainda menor */
+            }
+            
+            th, td {
+                padding: 4px;
+            }
+            
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            thead {
+                display: table-header-group;
+            }
+            
+            tfoot {
+                display: table-footer-group;
+            }
+            
+            /* Garantir que as bordas apareçam na impressão */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Evitar cortes de páginas em números específicos */
+            .page-break {
+                page-break-after: always;
+                height: 0;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/api/placeholder/200/80" alt="Logo" class="logo" id="logo-placeholder">
+            <h1 class="form-title">FORMULÁRIO DE REEMBOLSO DE DESPESAS DE QUILOMETRAGEM</h1>
+        </div>
+        <div id="pdf-notification" class="no-print" style="display: none; background-color: var(--primary-color); padding: 10px; text-align: center; margin-bottom: 15px; border-radius: 4px;">
+            <p style="margin: 0; font-weight: bold;">Dica: Para melhor visualização no PDF, ajuste as margens para "Nenhuma" nas configurações de impressão</p>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">DADOS DO SOLICITANTE</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nome">Nome do Beneficiário:</label>
+                    <input type="text" id="nome" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="chave-pix">Chave PIX:</label>
+                    <input type="text" id="chave-pix" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">DADOS DA EMPRESA</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="empresa">Nome da Empresa:</label>
+                    <input type="text" id="empresa" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="cnpj">CNPJ:</label>
+                    <input type="text" id="cnpj" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="data-emissao">Data de Emissão:</label>
+                    <input type="date" id="data-emissao" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="data-pagamento">Data Prevista de Pagamento (10 dias após aprovação):</label>
+                    <input type="date" id="data-pagamento" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">REGISTRO DE DESLOCAMENTOS</h2>
+            <div class="table-container">
+                <table id="viagens-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Origem</th>
+                            <th>Destino</th>
+                            <th>KM Inicial</th>
+                            <th>KM Final</th>
+                            <th>KM Rodados</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="viagens-body">
+                        <tr class="trip-row">
+                            <td><input type="date" class="data-viagem"></td>
+                            <td><input type="text" class="origem"></td>
+                            <td><input type="text" class="destino"></td>
+                            <td><input type="number" class="km-inicial" min="0"></td>
+                            <td><input type="number" class="km-final" min="0"></td>
+                            <td class="km-rodados">0</td>
+                            <td><button type="button" class="btn-excluir">Excluir</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn" id="adicionar-linha">Adicionar Deslocamento</button>
+        </div>
+        
+        <!-- Quebra de página explícita para impressão -->
+        <div class="page-break no-print"></div>
+        
+        <div class="summary-section">
+            <div>
+                <span class="summary-label">Total de KM Rodados:</span>
+                <span id="total-km">0</span> km
+            </div>
+            <div>
+                <span class="summary-label">Valor por KM (R$):</span>
+                <span id="valor-km">1,3410</span>
+            </div>
+            <div>
+                <span class="summary-label">Valor Total a Reembolsar (R$):</span>
+                <span id="valor-total">0,00</span>
+            </div>
+        </div>
+        
+        <div class="signature-section">
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <p>Assinatura do Solicitante</p>
+                <p id="data-assinatura">Data: __/__/____</p>
+            </div>
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <p>Aprovação do Gestor</p>
+                <p>Data: __/__/____</p>
+            </div>
+        </div>
+        
+        <div class="footer-info">
+            <div class="footer-title">INFORMAÇÕES IMPORTANTES:</div>
+            
+            <div class="footer-item">
+                <div class="footer-item-title">1. Cálculo da Quilometragem para Reembolso</div>
+                <p>A quilometragem a ser reembolsada deve ser calculada considerando a distância percorrida que exceder a rota habitual entre a residência do colaborador e a empresa.</p>
+                <p>Exemplo: Caso a distância entre a residência e a empresa seja de 20 km, e o colaborador tenha realizado um deslocamento para atendimento externo de 30 km no total (considerando ida e volta), o reembolso será correspondente à diferença entre o trajeto realizado e a distância habitual até a empresa.</p>
+                <p>No exemplo acima, o reembolso será sobre os 10 km adicionais percorridos.</p>
+            </div>
+            
+            <div class="footer-item">
+                <div class="footer-item-title">2. Declaração de Responsabilidade</div>
+                <p>O colaborador declara que todas as informações prestadas neste formulário são verdadeiras e correspondem à realidade dos deslocamentos realizados a serviço da empresa. O fornecimento de informações inverídicas ou a tentativa de obtenção de reembolso indevido poderá resultar na aplicação de sanções disciplinares, incluindo advertências, suspensão e, em casos graves, medidas legais cabíveis.</p>
+                <p>Ao assinar este documento, o colaborador reconhece e concorda com os critérios estabelecidos para o reembolso de despesas de quilometragem.</p>
+            </div>
+        </div>
+        
+        <button class="btn no-print" id="salvar-pdf">Salvar em PDF</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preencher data de emissão com data atual
+            const hoje = new Date();
+            const dataEmissaoInput = document.getElementById('data-emissao');
+            dataEmissaoInput.value = hoje.toISOString().split('T')[0];
+            
+            // Atualizar data de assinatura
+            const dataFormatada = hoje.toLocaleDateString('pt-BR');
+            document.getElementById('data-assinatura').textContent = `Data: ${dataFormatada}`;
+            
+            // Calcular data prevista de pagamento (10 dias após hoje)
+            const dataPagamento = new Date(hoje);
+            dataPagamento.setDate(dataPagamento.getDate() + 10);
+            document.getElementById('data-pagamento').value = dataPagamento.toISOString().split('T')[0];
+            
+            // Valor por km
+            const valorPorKm = 1.3410;
+            
+            // Adicionar linha de viagem
+            document.getElementById('adicionar-linha').addEventListener('click', function() {
+                const tbody = document.getElementById('viagens-body');
+                const novaLinha = document.createElement('tr');
+                novaLinha.className = 'trip-row';
+                novaLinha.innerHTML = `
+                    <td><input type="date" class="data-viagem"></td>
+                    <td><input type="text" class="origem"></td>
+                    <td><input type="text" class="destino"></td>
+                    <td><input type="number" class="km-inicial" min="0"></td>
+                    <td><input type="number" class="km-final" min="0"></td>
+                    <td class="km-rodados">0</td>
+                    <td><button type="button" class="btn-excluir">Excluir</button></td>
+                `;
+                tbody.appendChild(novaLinha);
+                
+                // Adicionar evento aos novos campos
+                adicionarEventosKm(novaLinha);
+                
+                // Adicionar evento ao botão excluir
+                adicionarEventoExcluir(novaLinha.querySelector('.btn-excluir'));
+            });
+            
+            // Função para adicionar evento de exclusão
+            function adicionarEventoExcluir(botao) {
+                botao.addEventListener('click', function() {
+                    const linha = this.closest('tr');
+                    if (document.querySelectorAll('.trip-row').length > 1) {
+                        linha.remove();
+                        calcularTotal();
+                    } else {
+                        alert("É necessário manter pelo menos um deslocamento.");
+                    }
+                });
+            }
+            
+            // Adicionar evento aos botões de excluir existentes
+            document.querySelectorAll('.btn-excluir').forEach(adicionarEventoExcluir);
+            
+            // Calcular km rodados e total
+            function adicionarEventosKm(linha) {
+                const kmInicialInput = linha.querySelector('.km-inicial');
+                const kmFinalInput = linha.querySelector('.km-final');
+                const kmRodadosCell = linha.querySelector('.km-rodados');
+                
+                const calcularKmRodados = function() {
+                    const kmInicial = parseFloat(kmInicialInput.value) || 0;
+                    const kmFinal = parseFloat(kmFinalInput.value) || 0;
+                    
+                    if (kmFinal >= kmInicial) {
+                        const kmRodados = kmFinal - kmInicial;
+                        kmRodadosCell.textContent = formatarNumero(kmRodados);
+                        
+                        // Recalcular total
+                        calcularTotal();
+                    } else {
+                        kmRodadosCell.textContent = '0';
+                        calcularTotal();
+                    }
+                };
+                
+                kmInicialInput.addEventListener('input', calcularKmRodados);
+                kmFinalInput.addEventListener('input', calcularKmRodados);
+            }
+            
+            // Adicionar eventos às linhas existentes
+            document.querySelectorAll('.trip-row').forEach(adicionarEventosKm);
+            
+            // Calcular total de km e valor a reembolsar
+            function calcularTotal() {
+                let totalKm = 0;
+                
+                document.querySelectorAll('.km-rodados').forEach(function(cell) {
+                    const km = parseFloat(cell.textContent.replace(/\./g, '').replace(',', '.')) || 0;
+                    totalKm += km;
+                });
+                
+                const valorTotal = totalKm * valorPorKm;
+                
+                document.getElementById('total-km').textContent = formatarNumero(totalKm);
+                document.getElementById('valor-total').textContent = formatarMoeda(valorTotal);
+            }
+            
+            // Formatar número com pontos para milhares
+            function formatarNumero(numero) {
+                return numero.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+            }
+            
+            // Formatar moeda
+            function formatarMoeda(valor) {
+                return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            
+            // Salvar em PDF com otimizações
+            document.getElementById('salvar-pdf').addEventListener('click', function() {
+                // Preparar o documento para impressão
+                const tabela = document.getElementById('viagens-table');
+                const linhasOriginais = tabela.querySelectorAll('.trip-row');
+                
+                // Se houver muitas linhas, ajustar a visualização para evitar cortes
+                if (linhasOriginais.length > 5) {
+                    document.querySelectorAll('.trip-row input').forEach(input => {
+                        input.style.padding = '2px';
+                        input.style.fontSize = '10px';
+                    });
+                }
+                
+                // Adicionar classe específica para impressão
+                document.body.classList.add('printing');
+                
+                // Mostrar mensagem de feedback
+                const mensagem = document.createElement('div');
+                mensagem.textContent = 'Preparando documento para PDF...';
+                mensagem.style.position = 'fixed';
+                mensagem.style.top = '50%';
+                mensagem.style.left = '50%';
+                mensagem.style.transform = 'translate(-50%, -50%)';
+                mensagem.style.padding = '15px';
+                mensagem.style.backgroundColor = 'var(--primary-color)';
+                mensagem.style.borderRadius = '5px';
+                mensagem.style.zIndex = '9999';
+                mensagem.style.fontWeight = 'bold';
+                mensagem.className = 'no-print';
+                document.body.appendChild(mensagem);
+                
+                // Pequeno atraso para permitir que o DOM seja atualizado
+                setTimeout(() => {
+                    window.print();
+                    
+                    // Limpar após impressão
+                    document.body.removeChild(mensagem);
+                    document.body.classList.remove('printing');
+                }, 300);
+            });
+
+            // Substituir o placeholder da logo pela imagem enviada
+            const logoElement = document.getElementById('logo-placeholder');
+            // Usar a logo real
+            logoElement.src = "C:\\Users\\rodri\\Downloads\\Ativo-3@4x-8 1.svg";
+            
+            // Tratamento para erro de carregamento da imagem
+            logoElement.onerror = function() {
+                // Se a imagem não carregar (por questões de segurança do navegador),
+                // mantemos o placeholder
+                console.log("Não foi possível carregar a imagem do caminho local. Usando placeholder.");
+            };
+        });
+    </script>
+</body>
+</html>
